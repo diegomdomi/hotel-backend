@@ -1,21 +1,6 @@
-import { Router } from "express";
-import { readdirSync } from 'fs';
+import {routerLogin} from './login'
+import { routerBookings } from './bookings'
+import { routerRooms } from './rooms'
+import { routerUsers } from './users'
 
-const PATH_ROUTER = `${__dirname}`
-const router = Router();
-
-const cleanFileName = (fileName: string):string | undefined =>{
-    const file = fileName.split('.').shift()
-    return file
-}
-
-readdirSync(PATH_ROUTER).filter((fileName)=>{
-    const cleanName = cleanFileName(fileName)
-    if (cleanName !== 'index') {
-        import(`./${cleanName}`).then((moduleRouter) => {
-            console.log(`se esta cargando la ruta...${cleanName}`);
-            router.use(`/${cleanName}`,moduleRouter.router)
-        })
-    }
-})
-export { router }
+export {routerLogin,routerBookings,routerRooms,routerUsers} 

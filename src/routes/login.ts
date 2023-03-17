@@ -1,19 +1,19 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 
 const express = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
-const router = express.Router();
-// ...
+const routerLogin = express.Router();
 
-router.post(
+routerLogin.post(
   '/',
   async (req:any, res:Response, next:NextFunction) => {
     passport.authenticate(
       'login',
       async (err:any, user:any, info:any) => {
         try {
+          console.log(user);
           if (err || !user) {
             const error = new Error('An error occurred.');
 
@@ -40,4 +40,5 @@ router.post(
   }
 );
 
-module.exports = router;
+export {routerLogin}
+

@@ -5,7 +5,7 @@ const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 
 const user:IUser = {
-    email: 'usuario1@1.com ',
+    email: 'usuario1@1.com',
     password: '111'  
 }
 
@@ -18,8 +18,8 @@ passport.use(
       },
       async (email:string, password:string, done:Function) => {
         try {
-  
-          if (!user) {
+          console.log(email);
+          if (user.email !== email || user.password !== password) {
             return done(null, false, { message: 'User not found' });
           }
   
