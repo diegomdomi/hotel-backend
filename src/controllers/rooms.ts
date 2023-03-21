@@ -11,7 +11,7 @@ const getRoom = (req:Request, res:Response)=>{
 
 const getRooms = (req:Request, res:Response)=>{
     try{
-       
+        res.send('hola rooms')
     } catch (e){
         handleHttp(res, 'ERROR_GET_ITEMS')
     }

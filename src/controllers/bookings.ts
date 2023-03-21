@@ -11,7 +11,7 @@ const getBooking = (req:Request, res:Response)=>{
 
 const getBookings = (req:Request, res:Response)=>{
     try{
-       
+       res.send('hola booking')
     } catch (e){
         handleHttp(res, 'ERROR_GET_ITEMS')
     }

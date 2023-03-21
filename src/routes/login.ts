@@ -27,7 +27,7 @@ routerLogin.post(
               if (error) return next(error);
 
               const body = { _id: user._id, email: user.email };
-              const token = jwt.sign({ user: body }, 'TOP_SECRET');
+              const token = jwt.sign({ user: body }, process.env.TOP_SECRET);
 
               return res.json({ token });
             }
