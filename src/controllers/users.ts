@@ -49,7 +49,7 @@ const postUser = async (req:Request, res:Response, next:NextFunction): Promise <
 const deleteUser = async (req:Request, res:Response, next:NextFunction): Promise <void> => {
     try{
        await dbQuery('DELETE FROM users WHERE idUser = ?', Number(req.params.userid));
-       res.json({success: true, message: 'succes deleating user'});
+       res.json({success: true, message: 'successfuly deleating user'});
     } catch (e){
         next(e)
         handleHttp(res, 'ERROR_DELETE_ITEM')
