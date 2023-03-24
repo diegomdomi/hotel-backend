@@ -1,5 +1,7 @@
 CREATE TABLE users(id INT NOT NULL AUTO_INCREMENT,
-				   idUsers INT NOT NULL,
+				   idUser INT NOT NULL,
+				   pass VARCHAR (255) NOT NULL,
+				   email VARCHAR (255) NOT NULL,
 				   img VARCHAR (500),
 				   first_name VARCHAR (50),
 				   job_desk VARCHAR (50),

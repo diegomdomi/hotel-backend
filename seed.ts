@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import bcrypt from "bcrypt";
 import { User } from './src/interfaces/userDb';
 import { Bookings } from './src/interfaces/bookingsDb';
 import { Room } from './src/interfaces/roomDb';
@@ -6,9 +7,9 @@ import connection,{ dbQuery } from './src/database/queryConnect';
 
 async function run(): Promise<void> {
   await connection.connect();
-  // await dataUsers(10)
+  await dataUsers(10)
   // await dataBookings(20)
-  await dataRoom(20)
+  // await dataRoom(20)
   await connection.end()
 }
 
@@ -16,7 +17,9 @@ run()
 
 export function createRandomUser(): User {
   return {
-    idUsers:faker.datatype.number(10),
+    idUser:faker.datatype.number(10),
+    pass:bcrypt.hashSync(faker.internet.password(), 6),
+    email: faker.internet.email(),
     img: faker.image.avatar(),
     first_name: faker.name.firstName(),
     job_desk: faker.name.jobTitle(),
