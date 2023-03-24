@@ -3,7 +3,7 @@ export interface Room {
     img: string,
     bed_type: string,
     room_floor: number,
-    amenity: string,
+    amenities: string,
     rate: number,
     status: number,
 

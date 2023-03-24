@@ -7,7 +7,7 @@ import connection,{ dbQuery } from './src/database/queryConnect';
 async function run(): Promise<void> {
   await connection.connect();
   // await dataUsers(10)
-  await dataBookings(20)
+  // await dataBookings(20)
   await dataRoom(20)
   await connection.end()
 }
@@ -61,7 +61,7 @@ export function createRandomRoom(): Room {
     img: faker.image.avatar(),
     bed_type: faker.name.firstName(),
     room_floor: faker.datatype.number(10),
-    amenity: faker.company.catchPhrase(),
+    amenities: faker.company.catchPhrase(),
     rate:faker.datatype.number(10),
     status: faker.datatype.number({min:1, max:2}),
   };
@@ -69,7 +69,7 @@ export function createRandomRoom(): Room {
 
 const dataRoom = async (room:number) => {
   for(let i = 0; i < room; i++){
-      const room = await createRandomBookings()
-      await dbQuery('INSERT INTO booking SET ?', room)
+      const room = await createRandomRoom()
+      await dbQuery('INSERT INTO room SET ?', room)
   }
 }
