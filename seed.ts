@@ -1,40 +1,30 @@
-import { faker } from '@faker-js/faker';
+import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import { faker } from '@faker-js/faker';
 import { User } from './src/interfaces/userDb';
 import { Bookings } from './src/interfaces/bookingsDb';
 import { Room } from './src/interfaces/roomDb';
-import connection,{ dbQuery } from './src/database/queryConnect';
+import { bookingModel } from './src/models/bookingModel';
+import { userModel } from './src/models/userModel';
+import { roomModel } from './src/models/roomModel';
 
-async function run(): Promise<void> {
-  await connection.connect();
-  await dataUsers(10)
-  // await dataBookings(20)
-  // await dataRoom(20)
-  await connection.end()
-}
+const connectionM = require('./src/database/connectionMongo')
 
-run()
-
-export function createRandomUser(): User {
-  return {
-    idUser:faker.datatype.number(10),
-    pass:bcrypt.hashSync(faker.internet.password(), 6),
-    email: faker.internet.email(),
-    img: faker.image.avatar(),
-    first_name: faker.name.firstName(),
-    job_desk: faker.name.jobTitle(),
-    schedules: faker.date.past(),
-    contact: faker.phone.imei(),    
-    status: faker.datatype.number({min:1, max:2}),
-  };
-}
-
-const dataUsers = async (users: number) => {
-  for(let i = 0; i < users; i++){
-      const user = await createRandomUser()
-      await dbQuery('INSERT INTO users SET ?', user)
+async function mongoTest() {
+  try{
+    await connectionM();
+    // const test = await BookingModel.find()
+    // console.log(test);
+    //  await dataBookings(10)
+    // await dataUsers(10)
+    await dataRoom(10)
+    await mongoose.disconnect();
+  }catch(err){
+    console.log(err)
   }
 }
+
+mongoTest()
 
 export function createRandomBookings(): Bookings {
   return {
@@ -52,10 +42,36 @@ export function createRandomBookings(): Bookings {
 
 
 const dataBookings = async (bookings:number) => {
+  let bookingsList = []
   for(let i = 0; i < bookings; i++){
       const booking = await createRandomBookings()
-      await dbQuery('INSERT INTO booking SET ?', booking)
+      bookingsList.push(booking)
   }
+  await bookingModel.create(bookingsList);
+  console.log(bookingsList);
+}
+
+export function createRandomUser(): User {
+  return {
+    idUser:faker.datatype.number(10),
+    pass:bcrypt.hashSync(faker.internet.password(), 6),
+    email: faker.internet.email(),
+    img: faker.image.avatar(),
+    first_name: faker.name.firstName(),
+    job_desk: faker.name.jobTitle(),
+    schedules: faker.date.past(),
+    contact: faker.phone.imei(),    
+    status: faker.datatype.number({min:1, max:2}),
+  };
+}
+
+const dataUsers = async (users: number) => {
+  let userList = []
+  for(let i = 0; i < users; i++){
+      const user = await createRandomUser()
+      userList.push(user)
+    }
+    await userModel.create(userList);
 }
 
 export function createRandomRoom(): Room {
@@ -71,8 +87,11 @@ export function createRandomRoom(): Room {
 }
 
 const dataRoom = async (room:number) => {
+  let roomList = []
   for(let i = 0; i < room; i++){
       const room = await createRandomRoom()
-      await dbQuery('INSERT INTO room SET ?', room)
+    roomList.push(room)
   }
+  await roomModel.create(roomList);
+
 }
