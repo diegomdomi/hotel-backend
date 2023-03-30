@@ -1,5 +1,5 @@
 export interface User {
-    idUser: number;
+    id: number;
     pass:string;
     email:string;
     img: string;

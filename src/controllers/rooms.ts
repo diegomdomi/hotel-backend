@@ -1,6 +1,11 @@
-// import { handleHttp } from "../utils/error.handle";
-// import { Request, Response, NextFunction } from 'express';
-// import { Room } from "../interfaces/roomDb"; 
+import mongoose from "mongoose";
+import { handleHttp } from "../utils/error.handle";
+import { Request, Response, NextFunction } from 'express';
+import { Room } from "../interfaces/roomDb"; 
+import { roomModel } from "../models/roomModel";
+
+const connect = require('../database/connectionMongo');
+const disconnect = mongoose.disconnect;
 // import { dbQuery } from "../database/queryConnect";
 
 // const getRoom = async (req:Request, res:Response, next:NextFunction): Promise<void> => {
