@@ -6,56 +6,69 @@ import { roomModel } from "../models/roomModel";
 
 const connect = require('../database/connectionMongo');
 const disconnect = mongoose.disconnect;
-// import { dbQuery } from "../database/queryConnect";
 
-// const getRoom = async (req:Request, res:Response, next:NextFunction): Promise<void> => {
-//     try{
-//         const room: Room | unknown = await dbQuery('SELECT * FROM room WHERE id = ?;', req.params.roomid);
-//         res.json(room);
-//     } catch (e){
-//         next(e);
-//         handleHttp(res, 'ERROR_GET_ITEM')
-//     }
-// };
+const getRoom = async (req:Request, res:Response, next:NextFunction): Promise<void> => {
+    try{
+        const idRoom = req.params.roomid;
+        await connect();
+        const room: Room | unknown = await roomModel.find({id: idRoom});
+        res.json({success: true, data:room});
+    } catch (e){
+        next(e);
+        handleHttp(res, 'ERROR_GET_ITEM');
+    }
+    await disconnect();
+};
 
-// const getRooms =async (req:Request, res:Response, next:NextFunction): Promise<void> => {
-//     try{
-//         const room: Room | unknown = await dbQuery('SELECT * FROM room', null)
-//         res.json(room)
-//     } catch (e){
-//         next(e)
-//         handleHttp(res, 'ERROR_GET_ITEMS')
-//     }
-// };
+const getRooms =async (req:Request, res:Response, next:NextFunction): Promise<void> => {
+    try{
+        await connect();
+        const room: Room | unknown = await roomModel.find();
+        res.json({success: true, data: room});
+    } catch (e){
+        next(e);
+        handleHttp(res, 'ERROR_GET_ITEMS');
+    }
+    await disconnect();
+};
 
-// const updateRoom =  async (req:Request, res:Response, next:Function): Promise<void> =>{
-//     try{
-//         await dbQuery('UPDATE room SET ? WHERE id = ?', req.params.roomid)
-//         res.json({success:true,message:'Updated succes'})
-//     } catch (e){
-//         next(e)
-//         handleHttp(res, 'ERROR_GET_ITEM')
-//     }
-// };
+const updateRoom =  async (req:Request, res:Response, next:Function): Promise<void> =>{
+    try{
+        const idRoom = req.params.roomid;
+        await connect();    
+        await roomModel.findOneAndUpdate({id:idRoom},req.body,{new:true});
+        res.json({ success: true, data: idRoom});
+    } catch (e){
+        next(e);
+        handleHttp(res,'ERROR_GET_ITEM');
+    }
+    await disconnect();
+};
 
-// const postRoom = async(req:Request, res:Response, next:Function): Promise<void> =>{
-//     try{
-//         await dbQuery('INSERT INTO room SET ?;',req.body)
-//         res.json({success: true, message: 'data send successfuly'});
-//     } catch (e){
-//         next(e)
-//         handleHttp(res, 'ERROR_POST_ITEM')
-//     }
-// };
+const postRoom = async(req:Request, res:Response, next:Function): Promise<void> =>{
+    try{
+        await connect();
+        const newRoom = new roomModel({...req.body});
+        await roomModel.create(newRoom); 
+        res.json({success: true, data: newRoom});
+    } catch (e){
+        next(e);
+        handleHttp(res, 'ERROR_GET_ITEM');
+    }
+    await disconnect();
+};
 
-// const deleteRoom = async(req:Request, res:Response, next:Function): Promise<void> =>{
-//     try{
-//         await dbQuery('DELETE room SET ? WHERE id = ?', req.params.roomid)
-//         res.json({success: true, message: 'room deleted successfuly'});
-//     } catch (e){
-//         next(e)
-//         handleHttp(res, 'ERROR_DELETE_ITEM')
-//     }
-// };
+const deleteRoom = async(req:Request, res:Response, next:Function): Promise<void> =>{
+    try{
+        const idRoom = req.params.roomid;
+        await connect();
+        await roomModel.findOneAndDelete({id:idRoom});
+        res.json({success: true, data: idRoom});
+    } catch (e){
+        next(e);
+        handleHttp(res, 'ERROR_DELETE_ITEM');
+    }
+    await disconnect();
+};
 
-// export { getRoom,getRooms,postRoom,updateRoom,deleteRoom }
+export { getRoom,getRooms,postRoom,updateRoom,deleteRoom }
