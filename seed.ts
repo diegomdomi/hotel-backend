@@ -15,7 +15,7 @@ async function mongoTest() {
     await connectionM();
     // await dataBookings(10);
     // await dataUsers(10);
-    // await dataRoom(10);
+    await dataRoom(10);
     await mongoose.disconnect();
   }catch(err){
     console.log(err);
@@ -32,9 +32,9 @@ export function createRandomBookings(i: number): Bookings {
     order_date:  faker.date.past(),
     check_in: faker.date.past(),
     check_out: faker.date.past(),
-    special_request: faker.company.catchPhrase(),
-    room_type: faker.company.catchPhraseAdjective(),
-    status: faker.datatype.number({min:1, max:2}),
+    special_request: faker.helpers.arrayElement(['Late Checkout', 'Gluten Free', 'None', 'Birthday Gift', ]),
+    room_type: faker.helpers.arrayElement(['Suite','Single Bed', 'Double Bed', 'Double Bed Superior', 'Deluxe A']),
+    status: faker.datatype.number({min:1, max:3}),
   };
 }
 
@@ -75,11 +75,17 @@ const dataUsers = async (users: number) => {
 export function createRandomRoom(i:number): Room {
   return {
     id:i+1,
-    img: faker.image.avatar(),
-    bed_type: faker.name.firstName(),
-    room_floor: faker.datatype.number(10),
-    amenities: faker.company.catchPhrase(),
-    rate:faker.datatype.number(10),
+    img:faker.helpers.arrayElement([  "https://unsplash.com/es/fotos/oxeCZrodz78",
+    "https://unsplash.com/es/fotos/Yrxr3bsPdS0",
+    "https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8aG90ZWwlMjByb29tfGVufDB8MHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
+    "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8aG90ZWwlMjByb29tfGVufDB8MHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
+    "https://images.unsplash.com/photo-1591088398332-8a7791972843?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8aG90ZWwlMjByb29tfGVufDB8MHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
+    "https://images.unsplash.com/photo-1590073242678-70ee3fc28e8e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxzZWFyY2h8OHx8aG90ZWwlMjByb29tfGVufDB8MHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
+    "https://images.unsplash.com/photo-1568495248636-6432b97bd949?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGhvdGVsJTIwcm9vbXxlbnwwfDB8MHx8&auto=format&fit=crop&w=800&q=60",]),
+    bed_type: faker.helpers.arrayElement(['Suite','Single Bed', 'Double Bed', 'Double Bed Superior', 'Deluxe A']),
+    room_floor: faker.helpers.arrayElement(['Floor A-1','Floor A-2', 'Floor B-2', 'Floor B-1']),
+    amenities: faker.helpers.arrayElement(['Tv - WiFi','Coffe Set', 'LED TV - AC', 'WiFi - Coffee Set - LED TV - AC', 'Towel - Double Bed']),
+    rate: faker.datatype.number({min:150, max:500}),
     status: faker.datatype.number({min:1, max:2}),
   };
 }

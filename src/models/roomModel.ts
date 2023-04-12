@@ -7,7 +7,7 @@ const roomSchema = new Schema({
     bed_type: String,
     room_floor: String,
     amenities: String,
-    rate: Number,
+    rate: String,
     status: String,
 })
 
