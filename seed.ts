@@ -46,7 +46,6 @@ const dataBookings = async (bookings:number) => {
       bookingsList.push(booking);
   }
   await bookingModel.create(bookingsList);
-  console.log(bookingsList);
 }
 
 export function createRandomUser(i:number): User {
@@ -56,10 +55,10 @@ export function createRandomUser(i:number): User {
     email: faker.internet.email(),
     img: faker.image.avatar(),
     first_name: faker.name.firstName(),
-    job_desk: faker.name.jobTitle(),
+    job_desk: faker.helpers.arrayElement(['Answering guest inquiries, directing phone calls, coordinating travel plans, and more.','Offer restaurant and activity recommendations and assist guests in arranging transportation.','Act as a liaison between guests and any department necessary including the kitchen, housekeeping, etc.','Anticipate guests needs in order to accommodate them and provide an exceptional guest experience.']),
     schedules: faker.date.past(),
     contact: faker.phone.imei(),    
-    status: faker.datatype.number({min:1, max:2}),
+    status: faker.helpers.arrayElement(['ACTIVE' , 'INACTIVE']),
   };
 }
 
@@ -70,6 +69,8 @@ const dataUsers = async (users: number) => {
       userList.push(user);
     }
     await userModel.create(userList);
+  console.log(userList);
+
 }
 
 export function createRandomRoom(i:number): Room {

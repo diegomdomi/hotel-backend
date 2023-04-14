@@ -12,7 +12,7 @@ const getBooking = async (req:Request, res:Response,next: NextFunction): Promise
     try{
         const idBooking = req.params.bookingid;
         await connect();
-        const booking: Bookings | unknown = await bookingModel.find({ id: idBooking });
+        const booking: Bookings | unknown = await bookingModel.findOne({ id: idBooking });
         res.json({success: true, data: booking});
     } catch (e){
         next(e);

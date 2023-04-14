@@ -6,12 +6,12 @@ const userSchema = new Schema({
     img: String,
     password: String,
     email: String,
-    first_Name: String,
-    job_desc: String,
-    schedule: Date,
+    first_name: String,
+    job_desk: String,
+    schedules: Date,
     contact: String,
     status: String,
 })
 
 
-export const userModel = mongoose.model('user', userSchema);
+export const userModel = mongoose.model('users', userSchema);

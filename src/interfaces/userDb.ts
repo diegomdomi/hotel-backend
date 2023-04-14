@@ -7,5 +7,5 @@ export interface User {
     job_desk: string;
     schedules: Date;
     contact: string;
-    status: number; 
+    status: string; 
 }

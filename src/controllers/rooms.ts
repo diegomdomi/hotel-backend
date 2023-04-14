@@ -11,7 +11,7 @@ const getRoom = async (req:Request, res:Response, next:NextFunction): Promise<vo
     try{
         const idRoom = req.params.roomid;
         await connect();
-        const room: Room | unknown = await roomModel.find({id: idRoom});
+        const room: Room | unknown = await roomModel.findOne({id: idRoom});
         res.json({success: true, data:room});
     } catch (e){
         next(e);
@@ -64,6 +64,7 @@ const deleteRoom = async(req:Request, res:Response, next:Function): Promise<void
         await connect();
         await roomModel.findOneAndDelete({id:idRoom});
         res.json({success: true, data: idRoom});
+        console.log(idRoom);
     } catch (e){
         next(e);
         handleHttp(res, 'ERROR_DELETE_ITEM');

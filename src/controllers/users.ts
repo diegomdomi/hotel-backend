@@ -11,7 +11,7 @@ const getUser = async (req:Request, res:Response,next: NextFunction): Promise<vo
     try{
         const idUser = req.params.userid;
         await connect();
-        const user: User | unknown = await userModel.find({ id: idUser });
+        const user: User | unknown = await userModel.findOne({ id: idUser });
         res.json({success: true, data: user});
     } catch (e){
         next(e);
@@ -48,10 +48,12 @@ const updateUser = async (req:Request, res:Response, next:Function): Promise<voi
 
 const postUser = async(req:Request, res:Response, next:Function): Promise<void> =>{
     try{
-        await connect();
-        const newUser = new userModel({...req.body});
-        await userModel.create(newUser); 
-        res.json({success: true, data: newUser});
+        await connect();    
+        const idUser = await userModel.find();
+        idUser.sort((a: any, b: any) => b.id - a.id);
+        req.body.id = idUser[0].id + 1;
+        await userModel.create(req.body);
+        res.json({ success: true, data: req.body});
     } catch (e){
         next(e);
         handleHttp(res, 'ERROR_POST_ITEM');
