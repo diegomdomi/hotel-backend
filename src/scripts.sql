@@ -31,4 +31,12 @@ CREATE TABLE booking(idBooking INT NOT NULL AUTO_INCREMENT,
 				    img VARCHAR(500),
                     PRIMARY KEY (idBooking));
 
+CREATE TABLE reviews(id INT NOT NULL AUTO_INCREMENT, 
+					date VARCHAR(100) NOT NULL, 
+					name VARCHAR(255) NOT NULL, 
+					email VARCHAR(255) NOT NULL, 
+					phone VARCHAR(50),
+					comment VARCHAR(500) NOT NULL,
+					PRIMARY KEY (id)
+					);
 				   

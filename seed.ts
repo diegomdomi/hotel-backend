@@ -4,12 +4,14 @@ import { User } from './src/interfaces/userDb';
 import { Bookings } from './src/interfaces/bookingsDb';
 import { Room } from './src/interfaces/roomDb';
 import connection,{ dbQuery } from './src/database/queryConnect';
+import { IReviews } from './src/interfaces/contact';
 
 async function run(): Promise<void> {
   await connection.connect();
-  await dataUsers(10)
+  // await dataUsers(10)
   // await dataBookings(20)
   // await dataRoom(20)
+  await dataReviews(10)
   await connection.end()
 }
 
@@ -75,4 +77,25 @@ const dataRoom = async (room:number) => {
       const room = await createRandomRoom()
       await dbQuery('INSERT INTO room SET ?', room)
   }
+}
+
+
+const dataReviews = async (number: number)=> {
+
+  for (let i = 0; i < number; i++) {
+    const review = await createRandomReviews()
+    await dbQuery("INSERT INTO reviews SET ?", review);
+  }
+}
+
+export  function createRandomReviews():IReviews {
+  return  {
+    id:faker.datatype.number(10),
+    date: faker.date.past(),
+    name: faker.name.fullName(),
+    email: faker.internet.email(),
+    phone: faker.phone.number("+## ## ### ## ##"),
+    subject: faker.company.catchPhrase(),
+    comment: faker.random.words(30),
+  };
 }

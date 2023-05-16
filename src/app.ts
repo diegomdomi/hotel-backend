@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config'
-import { routerLogin,routerBookings,routerUsers,routerRooms } from './routes';
+import { routerLogin,routerBookings,routerUsers,routerRooms,routerReviews } from './routes';
 const passport = require('passport');
 require('./auth')
 
@@ -44,6 +44,12 @@ app.use(
     passport.authenticate("jwt", { session: false }),
     routerUsers
   );
+  app.use(
+    "/contact",
+    passport.authenticate("jwt", { session: false }),
+    routerReviews
+  );
+
 
 
 
